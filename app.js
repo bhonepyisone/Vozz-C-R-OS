@@ -3,12 +3,12 @@
 // ========================================
 // REPLACE THIS WITH YOUR FIREBASE CONFIG FROM STEP 9
 const firebaseConfig = {
-    apiKey: "your-api-key-here",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "your-app-id"
+    apiKey: "AIzaSyBrGs8lyhw-qawWQZ1Qcj6yUffN79Gdh0U",
+    authDomain: "vozz-os.firebaseapp.com",
+    projectId: "vozz-os",
+    storageBucket: "vozz-os.firebasestorage.app",
+    messagingSenderId: "128985569447",
+    appId: "1:128985569447:web:1b5958a3330a2bbbfd6382"
 };
 
 // Initialize Firebase
