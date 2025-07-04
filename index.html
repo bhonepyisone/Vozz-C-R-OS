@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vozz OS - Restaurant Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-container">
+                <h1><i class="fas fa-utensils"></i> Vozz OS</h1>
+                <p>Restaurant Management System</p>
+                <div class="login-form">
+                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button onclick="login()">Login</button>
+                    <button onclick="showRegister()">Register</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Screen -->
+        <div id="registerScreen" class="screen">
+            <div class="login-container">
+                <h1><i class="fas fa-user-plus"></i> Register</h1>
+                <div class="login-form">
+                    <input type="text" id="regName" placeholder="Full Name" required>
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                    <select id="regRole">
+                        <option value="staff">Staff</option>
+                        <option value="manager">Manager</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <button onclick="register()">Register</button>
+                    <button onclick="showLogin()">Back to Login</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard" class="screen">
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <i class="fas fa-utensils"></i> Vozz OS
+                </div>
+                <div class="nav-menu">
+                    <button onclick="showModule('pos')" class="nav-item active">
+                        <i class="fas fa-cash-register"></i> POS
+                    </button>
+                    <button onclick="showModule('orders')" class="nav-item">
+                        <i class="fas fa-clipboard-list"></i> Orders
+                    </button>
+                    <button onclick="showModule('inventory')" class="nav-item">
+                        <i class="fas fa-boxes"></i> Inventory
+                    </button>
+                    <button onclick="showModule('staff')" class="nav-item">
+                        <i class="fas fa-users"></i> Staff
+                    </button>
+                    <button onclick="showModule('analytics')" class="nav-item">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </button>
+                </div>
+                <div class="nav-user">
+                    <span id="userName">Welcome User</span>
+                    <button onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </nav>
+
+            <!-- POS Module -->
+            <div id="posModule" class="module active">
+                <div class="pos-container">
+                    <div class="menu-section">
+                        <h2>Menu Items</h2>
+                        <div class="menu-grid" id="menuGrid">
+                            <!-- Menu items will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="order-section">
+                        <h2>Current Order</h2>
+                        <div id="currentOrder" class="order-items">
+                            <!-- Order items will appear here -->
+                        </div>
+                        <div class="order-total">
+                            <h3>Total: $<span id="orderTotal">0.00</span></h3>
+                            <button onclick="processPayment()" class="pay-btn">Process Payment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Module -->
+            <div id="ordersModule" class="module">
+                <h2>Order Management</h2>
+                <div class="orders-container">
+                    <div class="order-filters">
+                        <button onclick="filterOrders('all')" class="filter-btn active">All</button>
+                        <button onclick="filterOrders('pending')" class="filter-btn">Pending</button>
+                        <button onclick="filterOrders('preparing')" class="filter-btn">Preparing</button>
+                        <button onclick="filterOrders('ready')" class="filter-btn">Ready</button>
+                        <button onclick="filterOrders('delivered')" class="filter-btn">Delivered</button>
+                    </div>
+                    <div id="ordersList" class="orders-list">
+                        <!-- Orders will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Module -->
+            <div id="inventoryModule" class="module">
+                <h2>Inventory Management</h2>
+                <div class="inventory-container">
+                    <button onclick="addInventoryItem()" class="add-btn">Add Item</button>
+                    <div id="inventoryList" class="inventory-list">
+                        <!-- Inventory items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff Module -->
+            <div id="staffModule" class="module">
+                <h2>Staff Management</h2>
+                <div class="staff-container">
+                    <div class="staff-stats">
+                        <div class="stat-card">
+                            <h3>Total Staff</h3>
+                            <p id="totalStaff">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Active Today</h3>
+                            <p id="activeStaff">0</p>
+                        </div>
+                    </div>
+                    <div id="staffList" class="staff-list">
+                        <!-- Staff members will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Module -->
+            <div id="analyticsModule" class="module">
+                <h2>Analytics Dashboard</h2>
+                <div class="analytics-container">
+                    <div class="analytics-grid">
+                        <div class="stat-card">
+                            <h3>Today's Sales</h3>
+                            <p id="todaySales">$0.00</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Orders Today</h3>
+                            <p id="todayOrders">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Average Order</h3>
+                            <p id="avgOrder">$0.00</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Popular Item</h3>
+                            <p id="popularItem">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
